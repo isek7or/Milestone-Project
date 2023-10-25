@@ -1,0 +1,14 @@
+{
+  "name": "milestone-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "start": "live-server ./public"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  }
+}
