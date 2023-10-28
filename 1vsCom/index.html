@@ -50,11 +50,35 @@
             };
         }
 
-        const ball = new Ball(vec2(200, 200), vec2(2, 2), 20);
+        function ballCollisionWithTheEdges(ball) {
+
+            if (ball.pos.y + ball.radius >= canvas.height) {
+
+                ball.velocity.y *= -1;
+            }
+
+            if (ball.pos.y - ball.radius <= 0) {
+
+            ball.velocity.y *= -1;
+            }
+
+            if(ball.pos.x + ball.radius >= canvas.width) {
+
+                ball.velocity.x *= -1;
+            }
+
+            if (ball.pos.x - ball.radius <= 0) {
+
+            ball.velocity.x *= -1;
+            }
+        }
+
+        const ball = new Ball(vec2(200, 200), vec2(5, 5), 20);
 
         function gameUpdate() {
 
             ball.update();
+            ballCollisionWithTheEdges(ball);
         }
 
         function gameDraw() {
