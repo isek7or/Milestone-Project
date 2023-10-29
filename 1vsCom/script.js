@@ -1,9 +1,12 @@
+// CANVAS 2D RENDERING
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+
+// KEYBOARD INPUT
 const keyPressed = [];
 const KEY_UP = 38;
 const KEY_DOWN = 40;
@@ -16,10 +19,14 @@ window.addEventListener('keyup', function (e) {
     keyPressed[e.keyCode] = false;
 });
 
+
+// VECTOR PROPERTIES
 function vec2(x, y) {
     return { x: x, y: y };
 }
 
+
+// BALL PROPERTIES
 function Ball(pos, velocity, radius) {
 
     this.pos = pos;
@@ -41,6 +48,8 @@ function Ball(pos, velocity, radius) {
     };
 }
 
+
+// PADDLE PROPERTIES
 function Paddle(pos, velocity, width, height) {
 
     this.pos = pos;
@@ -77,6 +86,8 @@ function Paddle(pos, velocity, width, height) {
     };
 }
 
+
+// BALL COLLISION WITH TOP AND BOTTOM EDGES
 function ballCollisionWithTheEdges(ball) {
 
     if (ball.pos.y + ball.radius >= canvas.height) {
@@ -100,6 +111,8 @@ function ballCollisionWithTheEdges(ball) {
     } */
 }
 
+
+// PADDLE COLLISION WITH TOP AND BOTTOM EDGES
 function paddleCollisionWithEdges(paddle) {
 
     if (paddle.pos.y <= 0) {
@@ -113,6 +126,8 @@ function paddleCollisionWithEdges(paddle) {
     }
 }
 
+
+// BALL AND PADDLE COLLISION
 function ballPaddleCollision(ball, paddle) {
 
     let dx = Math.abs(ball.pos.x - paddle.getCenter().x);
@@ -124,6 +139,8 @@ function ballPaddleCollision(ball, paddle) {
     }
 }
 
+
+// PADDLE 2 AI MOVEMENT (BALL TRACK)
 function player2AI(ball, paddle) {
 
     if (ball.velocity.x > 0) {
@@ -150,6 +167,8 @@ function player2AI(ball, paddle) {
     }
 }
 
+
+// BALL POSITION ON RESPAWN
 function respawnBall(ball) {
 
     if (ball.velocity.x > 0) {
@@ -165,6 +184,8 @@ function respawnBall(ball) {
     }
 }
 
+
+// SCORING LOGIC
 function increaseScore(ball, paddle1, paddle2) {
 
     if (ball.pos.x <= -ball.radius) {
@@ -182,6 +203,8 @@ function increaseScore(ball, paddle1, paddle2) {
     }
 }
 
+
+// COURT RENDERING
 function drawGameScene() {
 
     ctx.strokeStyle = "#33ff00";
@@ -210,19 +233,19 @@ function drawGameScene() {
 }
 
 
-
-
+// GAME OBJECTS
 const ball = new Ball(vec2(100, 100), vec2(10, 10), 15);
 const paddle1 = new Paddle(vec2(0, canvas.height / 2 - 80), vec2(5, 5), 20, 160);
 const paddle2 = new Paddle(vec2(canvas.width - 20, canvas.height / 2 - 80), vec2(5, 5), 20, 160);
 
+
+// CALLING ON GAME PROPERTIES
 function gameUpdate() {
 
     ball.update();
     paddle1.update();
     paddleCollisionWithEdges(paddle1);
 
-    /* paddle2.update(); */
     player2AI(ball, paddle2);
 
     ballCollisionWithTheEdges(ball);
@@ -232,6 +255,8 @@ function gameUpdate() {
     increaseScore(ball, paddle1, paddle2);
 }
 
+
+// CALLING ON GAME OBJECTS
 function gameDraw() {
 
     ball.draw();
@@ -241,6 +266,8 @@ function gameDraw() {
     drawGameScene();
 }
 
+
+// GAME RENDERING (ANIMATION)
 function gameLoop() {
 
     // ctx.clearRect(0, 0, canvas.width, canvas.height);
