@@ -216,7 +216,7 @@ function increaseScore(ball, paddle1, paddle2) {
 }
 
 
-// COURT RENDERING
+// PONG TABLE RENDERING
 function drawGameScene() {
 
     ctx.strokeStyle = "#33ff00";
