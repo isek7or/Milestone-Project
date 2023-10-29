@@ -151,6 +151,32 @@
             }
         }
 
+        function player2AI(ball, paddle) {
+
+            if (ball.velocity.x > 0) {
+
+                if (ball.pos.y > paddle.pos.y) {
+
+                    paddle.pos.y += paddle.velocity.y;
+
+                    if (paddle.pos.y + paddle.height >= canvas.height) {
+
+                        paddle.pos.y = canvas.height - paddle.height;
+                    }
+                }
+
+                if (ball.pos.y < paddle.pos.y) {
+
+                    paddle.pos.y -= paddle.velocity.y;
+
+                    if (paddle.pos.y <= 0) {
+
+                        paddle.pos.y = 0;
+                    }
+                }
+            }
+        }
+
         const ball = new Ball(vec2(200, 200), vec2(5, 5), 20);
         const paddle1 = new Paddle(vec2(0, 50), vec2(5, 5), 20, 160);
         const paddle2 = new Paddle(vec2(canvas.width - 20, 30), vec2(5, 5), 20, 160);
@@ -160,7 +186,10 @@
             ball.update();
             paddle1.update();
             paddleCollisionWithEdges(paddle1);
+
             /* paddle2.update(); */
+            player2AI(ball, paddle2);
+
             ballCollisionWithTheEdges(ball);
             ballPaddleCollision(ball, paddle1);
             ballPaddleCollision(ball, paddle2);
