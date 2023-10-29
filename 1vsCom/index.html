@@ -18,12 +18,32 @@
         #canvas {
             background-color: #222;
         }
+
+        h1 {
+            color: #33ff00;
+            font-family: sans-serif;
+            font-size: 3em;
+            position: absolute;
+            top: 50px;
+            opacity: .5;
+        }
+
+        #player1Score {
+            left: 40%;
+        }
+
+        #player2Score {
+            right: 40%;
+        }
+
     </style>
 </head>
 
 <body>
 
     <canvas id="canvas"></canvas>
+    <h1 id="player1Score">0</h1>
+    <h1 id="player2Score">0</h1>
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -75,6 +95,7 @@
             this.velocity = velocity;
             this.width = width;
             this.height = height;
+            this.score = 0;
 
             this.update = function () {
                 if (keyPressed[KEY_UP]) {
@@ -116,7 +137,7 @@
                 ball.velocity.y *= -1;
             }
 
-            if (ball.pos.x + ball.radius >= canvas.width) {
+            /* if (ball.pos.x + ball.radius >= canvas.width) {
 
                 ball.velocity.x *= -1;
             }
@@ -124,7 +145,7 @@
             if (ball.pos.x - ball.radius <= 0) {
 
                 ball.velocity.x *= -1;
-            }
+            } */
         }
 
         function paddleCollisionWithEdges(paddle) {
@@ -177,7 +198,42 @@
             }
         }
 
-        const ball = new Ball(vec2(200, 200), vec2(5, 5), 20);
+        function respawnBall(ball) {
+
+            if(ball.velocity.x > 0) {
+
+                ball.pos.x = canvas.width / 2;
+                ball.pos.y = (Math.random() * (canvas.height - 200)) + 100;
+            }
+
+            if(ball.velocity.x < 0) {
+
+            ball.pos.x = canvas.width / 2;
+            ball.pos.y = (Math.random() * (canvas.height - 200)) + 100;
+            }
+        }
+
+        function increaseScore(ball, paddle1, paddle2) {
+
+            if (ball.pos.x <= -ball.radius) {
+
+                paddle2.score += 1;
+                document.getElementById("player2Score").innerHTML = paddle2.score;
+                respawnBall(ball);
+            }
+
+            if (ball.pos.x >= canvas.width + ball.radius) {
+
+                paddle1.score += 1;
+                document.getElementById("player1Score").innerHTML = paddle1.score;
+                respawnBall(ball);
+            }
+        }
+
+
+
+
+        const ball = new Ball(vec2(200, 200), vec2(10, 10), 20);
         const paddle1 = new Paddle(vec2(0, 50), vec2(5, 5), 20, 160);
         const paddle2 = new Paddle(vec2(canvas.width - 20, 30), vec2(5, 5), 20, 160);
 
@@ -193,6 +249,8 @@
             ballCollisionWithTheEdges(ball);
             ballPaddleCollision(ball, paddle1);
             ballPaddleCollision(ball, paddle2);
+
+            increaseScore(ball, paddle1, paddle2);
         }
 
         function gameDraw() {
