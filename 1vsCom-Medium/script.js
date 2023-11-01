@@ -3,7 +3,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.height = window.innerHeight - 27;
 
 
 // KEYBOARD INPUT
@@ -234,9 +234,9 @@ function drawGameScene() {
 
 
 // GAME OBJECTS
-const ball = new Ball(vec2(100, 100), vec2(10, 10), 15);
-const paddle1 = new Paddle(vec2(0, canvas.height / 2 - 80), vec2(5, 5), 20, 160);
-const paddle2 = new Paddle(vec2(canvas.width - 20, canvas.height / 2 - 80), vec2(5, 5), 20, 160);
+const ball = new Ball(vec2(100, 100), vec2(19, 15), 20);
+const paddle1 = new Paddle(vec2(0, canvas.height / 2 - 70), vec2(12, 12), 20, 140);
+const paddle2 = new Paddle(vec2(canvas.width - 20, canvas.height / 2 - 70), vec2(13, 13), 20, 140);
 
 
 // CALLING ON GAME PROPERTIES
@@ -271,7 +271,7 @@ function gameDraw() {
 function gameLoop() {
 
     // ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     window.requestAnimationFrame(gameLoop);
 

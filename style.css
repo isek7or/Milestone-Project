@@ -1,0 +1,27 @@
+* {
+    background-color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    color: #33ff00;
+}
+
+.btn {
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #222;
+    color: #33ff00;
+    border-color: #4d4d4d;
+}
+
+.btn:hover {
+    background-color: #4d4d4d;
+}

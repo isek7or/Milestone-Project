@@ -8,10 +8,8 @@ canvas.height = window.innerHeight - 27;
 
 // KEYBOARD INPUT
 const keyPressed = [];
-const KEY_UP = 87;
-const KEY_DOWN = 83;
-const KEY_UP2 = 38;
-const KEY_DOWN2 = 40;
+const KEY_UP = 38;
+const KEY_DOWN = 40;
 
 window.addEventListener('keydown', function (e) {
     keyPressed[e.keyCode] = true;
@@ -51,8 +49,8 @@ function Ball(pos, velocity, radius) {
 }
 
 
-// PADDLE 1 PROPERTIES
-function Paddle1(pos, velocity, width, height) {
+// PADDLE PROPERTIES
+function Paddle(pos, velocity, width, height) {
 
     this.pos = pos;
     this.velocity = velocity;
@@ -65,44 +63,6 @@ function Paddle1(pos, velocity, width, height) {
             this.pos.y -= this.velocity.y;
         }
         if (keyPressed[KEY_DOWN]) {
-            this.pos.y += this.velocity.y;
-        }
-    };
-
-    this.draw = function () {
-        ctx.fillStyle = "#33ff00"
-        ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height)
-        ctx.fill();
-    };
-
-    this.getHalfWidth = function () {
-        return this.width / 2;
-    };
-
-    this.getHalfHeight = function () {
-        return this.height / 2;
-    };
-
-    this.getCenter = function () {
-        return vec2(this.pos.x + this.getHalfWidth(), this.pos.y + this.getHalfHeight());
-    };
-}
-
-
-// PADDLE 2 PROPERTIES
-function Paddle2(pos, velocity, width, height) {
-
-    this.pos = pos;
-    this.velocity = velocity;
-    this.width = width;
-    this.height = height;
-    this.score = 0;
-
-    this.update = function () {
-        if (keyPressed[KEY_UP2]) {
-            this.pos.y -= this.velocity.y;
-        }
-        if (keyPressed[KEY_DOWN2]) {
             this.pos.y += this.velocity.y;
         }
     };
@@ -180,6 +140,34 @@ function ballPaddleCollision(ball, paddle) {
 }
 
 
+// PADDLE 2 AI MOVEMENT (BALL TRACK)
+function player2AI(ball, paddle) {
+
+    if (ball.velocity.x > 0) {
+
+        if (ball.pos.y > paddle.pos.y) {
+
+            paddle.pos.y += paddle.velocity.y;
+
+            if (paddle.pos.y + paddle.height >= canvas.height) {
+
+                paddle.pos.y = canvas.height - paddle.height;
+            }
+        }
+
+        if (ball.pos.y < paddle.pos.y) {
+
+            paddle.pos.y -= paddle.velocity.y;
+
+            if (paddle.pos.y <= 0) {
+
+                paddle.pos.y = 0;
+            }
+        }
+    }
+}
+
+
 // BALL POSITION ON RESPAWN
 function respawnBall(ball) {
 
@@ -245,11 +233,10 @@ function drawGameScene() {
 }
 
 
-
 // GAME OBJECTS
-const ball = new Ball(vec2(100, 100), vec2(18.75, 15), 20);
-const paddle1 = new Paddle1(vec2(0, canvas.height / 2 - 70), vec2(15, 15), 20, 140);
-const paddle2 = new Paddle2(vec2(canvas.width - 20, canvas.height / 2 - 70), vec2(15, 15), 20, 140);
+const ball = new Ball(vec2(100, 100), vec2(25, 20), 20);
+const paddle1 = new Paddle(vec2(0, canvas.height / 2 - 60), vec2(15, 15), 20, 120);
+const paddle2 = new Paddle(vec2(canvas.width - 20, canvas.height / 2 - 60), vec2(15, 15), 20, 120);
 
 
 // CALLING ON GAME PROPERTIES
@@ -257,12 +244,11 @@ function gameUpdate() {
 
     ball.update();
     paddle1.update();
-    paddle2.update();
+    paddleCollisionWithEdges(paddle1);
+
+    player2AI(ball, paddle2);
 
     ballCollisionWithTheEdges(ball);
-    paddleCollisionWithEdges(paddle1);
-    paddleCollisionWithEdges(paddle2);
-
     ballPaddleCollision(ball, paddle1);
     ballPaddleCollision(ball, paddle2);
 
@@ -285,7 +271,7 @@ function gameDraw() {
 function gameLoop() {
 
     // ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     window.requestAnimationFrame(gameLoop);
 
