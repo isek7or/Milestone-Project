@@ -140,7 +140,7 @@ function ballPaddleCollision(ball, paddle) {
 }
 
 
-// PADDLE 2 AI MOVEMENT (BALL TRACK)
+// PADDLE 2 AI MOVEMENT (BALL TRACKING)
 function player2AI(ball, paddle) {
 
     if (ball.velocity.x > 0) {
