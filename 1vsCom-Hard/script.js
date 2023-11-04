@@ -26,7 +26,7 @@ function vec2(x, y) {
 }
 
 
-// BALL PROPERTIES
+// BALL ATTRIBUTES AND METHODS
 function Ball(pos, velocity, radius) {
 
     this.pos = pos;
@@ -49,7 +49,7 @@ function Ball(pos, velocity, radius) {
 }
 
 
-// PADDLE PROPERTIES
+// PADDLE ATTRIBUTES AND METHODS
 function Paddle(pos, velocity, width, height) {
 
     this.pos = pos;
@@ -233,13 +233,13 @@ function drawGameScene() {
 }
 
 
-// GAME OBJECTS
+// GAME OBJECTS (and properties)
 const ball = new Ball(vec2(100, 100), vec2(25, 20), 20);
 const paddle1 = new Paddle(vec2(0, canvas.height / 2 - 60), vec2(15, 15), 20, 120);
 const paddle2 = new Paddle(vec2(canvas.width - 20, canvas.height / 2 - 60), vec2(15, 15), 20, 120);
 
 
-// CALLING ON GAME PROPERTIES
+// CALLING ON GAME EVENTS
 function gameUpdate() {
 
     ball.update();
